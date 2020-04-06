@@ -10,6 +10,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import bluebird from "bluebird";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
+import testRouter from "./routes/testRouter";
 
 const MongoStore = mongo(session);
 
@@ -17,6 +18,7 @@ const MongoStore = mongo(session);
 import * as homeController from "./controllers/home";
 import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
+import * as testController from "./controllers/testControllers";
 import * as contactController from "./controllers/contact";
 
 
@@ -84,6 +86,7 @@ app.use(
 /**
  * Primary app routes.
  */
+
 app.get("/", homeController.index);
 app.get("/login", userController.getLogin);
 app.post("/login", userController.postLogin);
@@ -101,7 +104,7 @@ app.post("/account/profile", passportConfig.isAuthenticated, userController.post
 app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userController.getOauthUnlink);
-
+app.use("/api",testRouter);
 /**
  * API examples routes.
  */
